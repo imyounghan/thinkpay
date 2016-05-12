@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Gateway returnUrl="" notifyUrl="">
+  <provider name="alipay" enabled="true" displayName="支付宝" logo="https://img.alipay.com/img/logo/logo.gif">
+    <property name="key"></property>
+    <property name="partner"></property>
+    <property name="payment_type">1</property>
+    <property name="seller_id"></property>
+    <property name="seller_account_name"></property>
+  </provider>
+  <provider name="tenpay" enabled="false" displayName="财付通" logo="http://mch.tenpay.com/res_mch/global/img/logo_s.png">
+    
+    <properties>
+      
+    </properties>
+  </provider>
+  <provider name="99bill" enabled="false" displayName="快钱" logo="https://img.99bill.com/jt/u/i/web2014/logo.gif">
+  </provider>
+  <provider name="weixin" enabled="false" displayName="微信支付" logo="https://img.99bill.com/jt/u/i/web2014/logo.gif">
+  </provider>  
+</Gateway>
