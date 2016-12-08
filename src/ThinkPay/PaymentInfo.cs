@@ -5,12 +5,12 @@ namespace ThinkPay
     /// <summary>
     /// 交易信息
     /// </summary>
-    public class PaymentInfo : IPayment
+    public class PaymentInfo
     {
-        /// <summary>
-        /// 订单日期
-        /// </summary>
-        public DateTime Date { get; set; }
+        ///// <summary>
+        ///// 订单日期
+        ///// </summary>
+        //public DateTime Date { get; set; }
         /// <summary>
         /// 订单ID
         /// </summary>
@@ -31,9 +31,13 @@ namespace ThinkPay
         /// 订单金额
         /// </summary>
         public decimal Amount { get; set; }
-
+        /// <summary>
+        /// 是否已支付
+        /// </summary>
         public bool Prepaid { get; set; }
-
+        /// <summary>
+        /// 是否关闭(如超时系统自动关闭)
+        /// </summary>
         public bool Closed { get; set; }
     }
 }

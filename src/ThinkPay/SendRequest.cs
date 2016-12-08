@@ -4,6 +4,9 @@ using System.Web;
 
 namespace ThinkPay
 {
+    /// <summary>
+    /// 发送请求
+    /// </summary>
     public abstract class SendRequest : IHttpProxy
     {
         /// <summary>
@@ -17,19 +20,20 @@ namespace ThinkPay
         /// <summary>
         /// 请求类型
         /// </summary>
-        protected virtual string Method { get { return "post"; } }
+        protected virtual string FormMethod { get { return "post"; } }
         /// <summary>
         /// 表单数据
         /// </summary>
-        protected abstract IDictionary FormData { get; }
+        protected abstract IDictionary FormInputs { get; }
 
 
         public virtual void Render(HttpContextBase httpContext)
         {
             StringBuilder html = new StringBuilder();
 
-            html.AppendFormat("<form id=\"{0}\" name=\"{0}\" action=\"{1}\" method=\"{2}\">", FormName, Gateway, Method).AppendLine();
-            for (IEnumerator key = FormData.Keys.GetEnumerator(), value = FormData.Values.GetEnumerator(); key.MoveNext() && value.MoveNext(); ) {
+            html.AppendFormat("<form id=\"{0}\" name=\"{0}\" action=\"{1}\" method=\"{2}\">", FormName, Gateway, FormMethod).AppendLine();
+            for(IEnumerator key = FormInputs.Keys.GetEnumerator(), value = FormInputs.Values.GetEnumerator(); 
+                key.MoveNext() && value.MoveNext(); ) {
                 html.AppendFormat("<input type=\"hidden\" id=\"{0}\" name=\"{0}\" value=\"{1}\" />",
                     key.Current, value.Current).AppendLine();
             }
@@ -40,11 +44,6 @@ namespace ThinkPay
             html.AppendFormat("<script>document.forms['{0}'].submit();</script>", FormName);
 
             httpContext.Response.Write(html.ToString());
-        }
-
-        void IHttpProxy.Render(HttpContextBase httpContext)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

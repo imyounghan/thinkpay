@@ -5,20 +5,25 @@ using System.Web;
 
 namespace ThinkPay
 {
+    /// <summary>
+    /// 收到通知
+    /// </summary>
     public abstract class ReceiceNotify<T> : IHttpProxy
     {
+        //public string PaymentFrom { get; set; }
+
         /// <summary>
-        /// 单据处理
+        /// 处理单据
         /// </summary>
-        protected abstract bool ReceiptProcessing(T reply);
+        protected abstract bool ProcessReceipt(T reply);
         /// <summary>
         /// 签名验证
         /// </summary>
         protected abstract bool SignVerify(IDictionary parameters);
         /// <summary>
-        /// 通知
+        /// 将第三方结果转换成 <see cref="T"/>
         /// </summary>
-        protected abstract T NotifyResultConvert(IDictionary parameters);
+        protected abstract T Transform(IDictionary parameters);
 
         /// <summary>
         /// 构造参数
@@ -27,7 +32,7 @@ namespace ThinkPay
         {
             Dictionary<string, string> parameters = new Dictionary<string, string>();
             foreach (var key in httpRequest.Form.AllKeys) {
-                parameters.Add(key, httpRequest.GetFormString(key));
+                parameters.Add(key, httpRequest.Form[key]);
             }
 
             return parameters;
@@ -38,17 +43,17 @@ namespace ThinkPay
             var parameters = BuildParameters(httpContext.Request);
 
             if (parameters.Count <= 0) {
-                httpContext.Response.Write("No notification parameters");
+                httpContext.Response.Write("No notification parameters.");
                 return;
             }
 
             if (!SignVerify(parameters)) {
-                httpContext.Response.Write("Verify the signature failure");
+                httpContext.Response.Write("Verify the signature failure.");
                 return;
             }
 
-            var reply = this.NotifyResultConvert(parameters);
-            if (!ReceiptProcessing(reply)) {
+            var reply = this.Transform(parameters);
+            if(!ProcessReceipt(reply)) {
                 httpContext.Response.Write("fail");
                 return;
             }

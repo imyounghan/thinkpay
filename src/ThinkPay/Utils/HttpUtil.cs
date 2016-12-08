@@ -44,13 +44,28 @@ namespace ThinkPay.Utils
             return ip;
         }
 
+        /// <summary>
+        /// 返回 URL 字符串的编码结果
+        /// </summary>
+        public static string UrlEncode(string str, string charset = "utf-8")
+        {
+            return UrlEncode(str, Encoding.GetEncoding(charset));
+        }
+        /// <summary>
+        /// 返回 URL 字符串的编码结果
+        /// </summary>
+        public static string UrlEncode(string str, Encoding encoding)
+        {
+            return HttpUtility.UrlEncode(str, encoding);
+        }
+
         private static string BuildRequestParameterToString(IDictionary<string, string> dicArray, Encoding encoding)
         {
             SortedDictionary<string, string> tempArray = new SortedDictionary<string, string>(dicArray);
 
             StringBuilder sb = new StringBuilder();
             foreach (var temp in tempArray) {
-                sb.AppendFormat("{0}={1}", temp.Key, temp.Value.UrlEncode(encoding)).Append("&");
+                sb.AppendFormat("{0}={1}", temp.Key, UrlEncode(temp.Value, encoding)).Append("&");
             }
 
             return sb.Remove(sb.Length - 1, 1).ToString();

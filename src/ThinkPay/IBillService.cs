@@ -9,19 +9,19 @@ namespace ThinkPay
         /// <summary>
         /// 获取支付单信息
         /// </summary>
-        IPayment GetPaymentInfo(string paymentNo);
+        PaymentInfo GetPaymentInfo(string orderNo);
         /// <summary>
         /// 获取退款单信息
         /// </summary>
-        IRefund GetRefundInfo(string refundNo);
+        RefundInfo GetRefundInfo(string refundNo);
 
         /// <summary>
         /// 支付完成通知处理
         /// </summary>
-        bool PaymentNofity(IPaymentNotify paymentReply);
+        bool Notify(PaymentNotifyInfo reply);
         /// <summary>
         /// 退款成功通知处理
         /// </summary>
-        bool RefundNotify(IRefundNotify refundReply);
+        bool Notify(RefundNotifyInfo reply);
     }
 }
